@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.health.connect.client.PermissionController
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -34,8 +35,8 @@ fun WaterTrackerScreen(healthManager: HealthConnectManager) {
     var totalTodayMl by remember { mutableStateOf(0.0) }
 
     val requestPermissionLauncher = rememberLauncherForActivityResult(
-        contract = healthManager.healthConnectClient.permissionController.createRequestPermissionResultContract()
-    ) { grantedPermissions ->
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) { grantedPermissions: Set<String> ->
         if (grantedPermissions.containsAll(healthManager.permissions)) {
             Toast.makeText(context, "Permessi concessi!", Toast.LENGTH_SHORT).show()
         }
